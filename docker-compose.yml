@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+    learn-japanese-database:
+        container_name: learn-japanese-database
+        image: postgres:10
+        env_file:
+            - .env
+        ports:
+            - ${POSTGRES_PORT}:5432
+        environment:
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_DATABASE_NAME}
+            POSTGRES_INITDB_ARGS: '--encoding=UTF-8'
+            TZ: UTC
+        hostname: postgres
+        restart: always
+        user: root

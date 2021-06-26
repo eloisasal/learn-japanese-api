@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "es2020",
+        "module": "commonjs",
+        "lib": ["es2020"],
+        "strict": true,
+        "noImplicitAny": true,
+        "importHelpers": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "strictNullChecks": true,
+        "types": ["node", "jest", "aws-lambda"],
+        "esModuleInterop": true,
+        "sourceMap": true
+    },
+    "paths": {
+        "@/*": ["src/*"]
+    },
+    "include": ["src/**/*.ts", "src/**/*.js", "__tests__/**/*"],
+    "exclude": ["cdk.out"]
+}

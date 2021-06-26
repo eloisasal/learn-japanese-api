@@ -58,7 +58,7 @@
 |:-----------------|:-------|:---------|:-------------------------------|
 | Create user info | POST   | required | application/json;charset=UTF-8 |
 
-**Process:**  
+**Process:**
 1. Creates a user in same organization and links it to restaurants
 
 **Path parameters:**  
