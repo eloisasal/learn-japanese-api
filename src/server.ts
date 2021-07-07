@@ -22,7 +22,7 @@ const port = process.env.SERVER_PORT;
 const context: any = {
     awsRequestId: 1,
 };
-const event = createEvent({
+let event = createEvent({
     template: 'aws:apiGateway',
     merge: {
         body: null,
@@ -46,11 +46,16 @@ const getRequest = (route: Route) => {
 
 const postRequest = (route: Route) => {
     app.post(route.endpoint, async (req: any, res: any) => {
+        console.log('request = ', req);
         console.log('POST ', route.endpoint);
-        console.log('post body = ', event.body);
+
         event.httpMethod = route.method;
         event.headers = req.headers;
-        event.body = req.body;
+        if (typeof req.body == 'object') {
+            event.body = JSON.stringify(req.body);
+        } else {
+            event.body = req.body;
+        }
         const response: any = await route.handler(event, context);
         res.send(response.body);
     });

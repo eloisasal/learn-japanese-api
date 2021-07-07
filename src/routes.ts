@@ -15,22 +15,22 @@ export interface Route {
 
 export const routes: Route[] = [
     {
-        endpoint: '/api/vocabLists',
+        endpoint: '/api/vocablists',
         handler: vocabListsHandler,
         method: RouteMethod.GET,
     },
     {
-        endpoint: '/api/vocabLists',
+        endpoint: '/api/vocablists',
         handler: vocabListsHandler,
         method: RouteMethod.POST,
     },
     {
-        endpoint: '/api/vocabLists/:id',
+        endpoint: '/api/vocablists/:id',
         handler: vocabListsHandler,
         method: RouteMethod.PUT,
     },
     {
-        endpoint: '/api/vocabLists/:id',
+        endpoint: '/api/vocablists/:id',
         handler: vocabListsHandler,
         method: RouteMethod.DELETE,
     },
