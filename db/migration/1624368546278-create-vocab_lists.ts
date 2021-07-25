@@ -1,36 +1,25 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class createVocabListsts1624368546278 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.createTable(
-            new Table({
-                name: 'vocablists',
-                columns: [
-                    {
-                        name: 'id',
-                        type: 'int',
-                        isPrimary: true,
-                        isGenerated: true,
-                    },
-                    {
-                        name: 'name',
-                        type: 'varchar',
-                        isUnique: true,
-                    },
-                ],
-            }),
-            true,
-        );
         await queryRunner.query(`
-            ALTER TABLE "vocablists" ADD "created_at" timestamp NOT NULL DEFAULT NOW();
-            ALTER TABLE "vocablists" ADD "modified_at" timestamp NOT NULL DEFAULT NOW();
-            ALTER TABLE "vocablists" ADD "created_by" int;
-            ALTER TABLE "vocablists" ADD "modified_by" int;
-            CREATE TRIGGER set_modified BEFORE UPDATE ON vocablists FOR EACH ROW EXECUTE PROCEDURE trigger_set_modified();
+            CREATE TYPE visibility_type AS ENUM ('public', 'private');
+            CREATE TYPE kind_type AS ENUM ('vocabulary', 'grammar', 'kanji');
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
         `);
+
+        await queryRunner.query(`
+            CREATE TABLE "study_list" (
+                "id" UUID PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
+                "name" VARCHAR(100) NOT NULL,
+                "visibility" visibility_type NOT NULL DEFAULT 'public'
+            ) INHERITS ("operation_logs");
+
+            CREATE TRIGGER set_modified BEFORE UPDATE ON study_list FOR EACH ROW EXECUTE PROCEDURE trigger_set_modified();
+            `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('vocablists');
+        await queryRunner.dropTable('study_list');
     }
 }
